@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.koreait.dao.MybatisDAO">
+
+<insert id="insert" parameterType="kr.koreait.vo.MemberVO">
+	insert into mvcboard (idx,name,age,con,depart,memberphoto) values (mvcboard_idx_seq.nextval,#{name},#{age},#{con},#{depart},#{memberPhoto})
+</insert>
+<select id="selectCount" resultType="int">
+	select count(*) from mvcboard
+</select>
+<select id="selectList" parameterType="java.util.HashMap" resultType="kr.koreait.vo.MemberVO">
+	<![CDATA[
+	select * from(
+		select rownum rnum, TT.* from (
+			select * from mvcboard order by ref desc, seq asc
+		) TT where rownum <= #{endNo} 
+	) where rnum >= #{startNo}
+		]]>
+</select>
+<insert id="registeManager" parameterType="kr.koreait.vo.ManagerVO">
+	insert into mvc_manager (idx,id,password,name,phone,usernumber,ip) values(mvcmanager_idx_seq.nextval,#{id},#{password},#{name},#{phone},#{userNumber},#{ip})
+</insert>
+<delete id="deleteMember" parameterType="int">
+	delete from mvcboard where idx=#{idx}
+</delete>
+<select id="selectIdx" resultType="int">
+ 	select last_number from USER_SEQUENCES where SEQUENCE_NAME = 'MVCBOARD_IDX_SEQ'
+
+</select>
+<update id="updateMember" parameterType="kr.koreait.vo.MemberVO">
+	update mvcboard set name=#{name},con=#{con},age=#{age},depart=#{depart},memberphoto=#{memberPhoto} where idx=#{idx}
+</update>
+</mapper>
