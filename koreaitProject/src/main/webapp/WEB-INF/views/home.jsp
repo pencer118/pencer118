@@ -48,7 +48,7 @@
 
         filesArr.forEach(function(f) {
             if(!f.type.match("image.*")) {
-                alert("이미지 파일을 넣어주세요.");
+                alert("이미지 파일을 넣어주세요..");
                 return;
             }
 
